@@ -1,0 +1,102 @@
+    1.
+
+ssh adam@64.226.68.50
+
+cd asm
+
+touch x.asm
+
+    nano x.asm
+
+nasm -g -f elf -F dwarf x.asm
+
+ld -m elf_i386 -o x x.o
+
+    ./name
+
+gdb x
+
+layout asm
+layout regs
+layout cmd
+
+break _start
+run
+step
+step
+...
+
+
+
+
+
+    2.
+
+ssh adam@64.226.68.50
+
+cd asm
+
+touch x.asm
+
+    nano x.asm
+
+make x
+
+gdb x
+
+    In gdb:
+
+layout regs
+layout src
+
+b _start
+run
+s
+s
+...
+
+focus cmd/regs/src
+
+p (char)num1 (db) -- ???
+p (short)num2 - print value of num2 (dw)
+p (long)num3 - print value of num3 (dd)
+p &num3 — print adress of num3
+x &num3 — print value of num3
+x/1xw &num3 — print hexadecimal word
+x/1uw &num3 — print unsigned word
+x/1uh &num2 — print unsigned half-word (16bit)
+x/1xh &num2 — print hexadecimal half-word (16bit)
+
+
+    All this is for the code:
+{
+%use masm
+
+%include "../stud_io.inc"
+
+global  _start
+
+section .text
+
+_start:
+;       mov ah, num1
+;       inc ah
+        mov ax, [num2]
+        inc ax
+        mov eax, [num3]
+        inc eax
+;       mov ebx, num2
+;       add eax, ebx
+        FINISH
+
+section .data
+;num1   db 1
+num2    dw 1025
+num3    dd 65537
+}
+
+
+
+
+
+cp -rT dir1 dir2 - copy contents of dir1 to dir2
